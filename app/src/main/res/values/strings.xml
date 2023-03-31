@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">Kalkulator Diskon</string>
+    <string name="app_name">Hitung Diskon</string>
     <string name="harga">Harga</string>
     <string name="diskon">Diskon</string>
     <string name="gambar_diskon">Diskon</string>
+    <string name="harga_invalid">Masukan harga terlebih dahulu</string>
+    <string name="diskon_invalid">Masukan diskon terlebih dahulu</string>
+    <string name="hasil_x">Total : %.2f</string>
 </resources>
