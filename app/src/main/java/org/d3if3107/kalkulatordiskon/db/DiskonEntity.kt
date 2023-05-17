@@ -3,7 +3,7 @@ package org.d3if3107.kalkulatordiskon.db
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "diskon")
+@Entity(tableName = "kalkulatordiskon")
 data class DiskonEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L,

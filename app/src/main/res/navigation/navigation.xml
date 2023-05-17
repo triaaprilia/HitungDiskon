@@ -8,6 +8,23 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="org.d3if3107.kalkulatordiskon.MainFragment"
-        android:label="MainFragment"
-        tools:layout="@layout/fragment_main"/>
+        android:label="Kalkulator Diskon"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_historiFragment"
+            app:destination="@id/historiFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="org.d3if3107.kalkulatordiskon.ui.AboutFragment"
+        android:label="@string/tentang_aplikasi"
+        tools:layout="@layout/fragment_about"/>
+    <fragment
+        android:id="@+id/historiFragment"
+        android:name="org.d3if3107.kalkulatordiskon.ui.histori.HistoriFragment"
+        android:label="@string/histori"
+        tools:layout="@layout/fragment_histori" />
 </navigation>

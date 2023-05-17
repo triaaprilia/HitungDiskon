@@ -2,20 +2,24 @@ package org.d3if3107.kalkulatordiskon
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import org.d3if3107.kalkulatordiskon.databinding.FragmentMainBinding
+import org.d3if3107.kalkulatordiskon.db.DiskonDb
 import org.d3if3107.kalkulatordiskon.model.HasilDiskon
+import org.d3if3107.kalkulatordiskon.ui.histori.HistoriViewModel
+import org.d3if3107.kalkulatordiskon.ui.histori.HistoriViewModelFactory
 
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
 
     private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this)[MainViewModel::class.java]
+            val db = DiskonDb.getInstance(requireContext())
+            val factory = MainViewModelFactory(db.dao)
+            ViewModelProvider(this, factory)[MainViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -24,12 +28,32 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMainBinding.inflate(layoutInflater, container, false)
+        setHasOptionsMenu(true)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.button.setOnClickListener {kalkulatorDiskon()}
         viewModel.getHasilDiskon().observe(requireActivity()) { showResult(it) }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.options_menu, menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.menu_histori -> {
+                findNavController().navigate(R.id.action_mainFragment_to_historiFragment)
+                return true
+            }
+            R.id.menu_about -> {
+                findNavController().navigate(R.id.action_mainFragment_to_aboutFragment)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun kalkulatorDiskon() {
@@ -48,9 +72,6 @@ class MainFragment : Fragment() {
             harga.toDouble(),
             diskon.toDouble())
 
-//        val jumlahDiskon=  harga.toDouble() * diskon.toDouble() / 100
-//        val hasilDiskon = harga.toDouble() - jumlahDiskon
-//        binding.hasil.text = getString(R.string.hasil_x,hasilDiskon)
     }
 
     private fun showResult(result: HasilDiskon?) {

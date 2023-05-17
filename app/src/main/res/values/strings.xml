@@ -5,5 +5,14 @@
     <string name="gambar_diskon">Diskon</string>
     <string name="harga_invalid">Masukan harga terlebih dahulu</string>
     <string name="diskon_invalid">Masukan diskon terlebih dahulu</string>
-    <string name="hasil_x">Total : %.2f</string>
+    <string name="hasil_x">Harga Diskon: %.2f</string>
+    <string name="copyright">Aplikasi KalkulatorDiskon digunakan untuk membantu pengguna menghitung jumlah diskon yang akan diberikan secara otomatis, sehingga pengguna tidak perlu lagi melakukan perhitungan manual. Dengan menggunakan aplikasi hitung diskon, pengguna dapat memperoleh informasi yang akurat mengenai jumlah diskon yang akan diberikan. \n\nAplikasi ini dibuat untuk memenuhi assessment 2 Mobpro 1. Temukan kodenya di https://github.com/triaaprilia/KalkulatorDiskon \n\nCopyright © 2023 Tria Aprilia.\nAll rights reserved</string>
+    <string name="tentang_aplikasi">Tentang Aplikasi</string>
+    <string name="belum_ada_data">Belum ada data</string>
+    <string name="hapus_histori">Hapus Histori</string>
+    <string name="histori">Histori</string>
+    <string name="bagikan">Bagikan</string>
+    <string name="konfirmasi_hapus">Hapus semua histori?</string>
+    <string name="hapus">Hapus</string>
+    <string name="batal">Batal</string>
 </resources>
