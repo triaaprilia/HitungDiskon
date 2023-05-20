@@ -1,5 +1,6 @@
 package org.d3if3107.kalkulatordiskon
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
@@ -36,6 +37,8 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.button.setOnClickListener {kalkulatorDiskon()}
         viewModel.getHasilDiskon().observe(requireActivity()) { showResult(it) }
+        binding.shareButton.setOnClickListener { shareData() }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -74,8 +77,24 @@ class MainFragment : Fragment() {
 
     }
 
+    private fun shareData() {
+        val message = getString(R.string.bagikan_template,
+            binding.hargaInp.text.toString(),
+            binding.diskonInp.text.toString(),
+            binding.hasil.text.toString(),
+        )
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.setType("text/plain").putExtra(Intent.EXTRA_TEXT, message)
+        if (shareIntent.resolveActivity(
+                requireActivity().packageManager) != null) {
+            startActivity(shareIntent)
+        }
+    }
+
+
     private fun showResult(result: HasilDiskon?) {
         if (result == null) return
         binding.hasil.text = getString(R.string.hasil_x, result.jumlahdiskon)
+        binding.buttonGroup.visibility = View.VISIBLE
     }
 }
