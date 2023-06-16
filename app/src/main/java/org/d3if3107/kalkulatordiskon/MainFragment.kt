@@ -3,6 +3,7 @@ package org.d3if3107.kalkulatordiskon
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -34,10 +35,12 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.button.setOnClickListener { kalkulatorDiskon() }
+        binding.shareButton.setOnClickListener { shareData() }
+
         viewModel.getHasilDiskon().observe(requireActivity()) {
             showResult(it)
         }
-        binding.shareButton.setOnClickListener { shareData() }
+
 //        viewModel.getStatus().observe(viewLifecycleOwner) {
 //            updateProgress(it)
 //        }
@@ -68,17 +71,16 @@ class MainFragment : Fragment() {
 
     private fun kalkulatorDiskon() {
         val harga = binding.hargaInp.text.toString()
+        val diskon = binding.diskonInp.text.toString()
 
         if (TextUtils.isEmpty(harga)) {
             Toast.makeText(context, R.string.harga_invalid, Toast.LENGTH_LONG).show()
             return
-        }
-
-        val diskon = binding.diskonInp.text.toString()
-
-        if (TextUtils.isEmpty(diskon)) {
+        } else if (TextUtils.isEmpty(diskon)) {
             Toast.makeText(context, R.string.diskon_invalid, Toast.LENGTH_LONG).show()
             return
+        } else {
+            viewModel.hitungDiskon(harga.toDouble(), diskon.toDouble())
         }
     }
 
@@ -101,6 +103,7 @@ class MainFragment : Fragment() {
 
     private fun showResult(result: HasilDiskon?) {
         if (result == null) return
+
         binding.hasil.text = getString(R.string.hasil_x, result.jumlahdiskon)
         binding.buttonGroup.visibility = View.VISIBLE
     }
