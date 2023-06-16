@@ -6,6 +6,10 @@
         android:title="@string/histori"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/menu_diskon"
+        android:title="@string/daftar_diskon"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/menu_about"
         android:title="@string/tentang_aplikasi"
         app:showAsAction="never" />

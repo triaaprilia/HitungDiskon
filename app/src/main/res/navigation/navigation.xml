@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_mainFragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_diskonFragment"
+            app:destination="@id/diskonFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
@@ -27,4 +30,8 @@
         android:name="org.d3if3107.kalkulatordiskon.ui.histori.HistoriFragment"
         android:label="@string/histori"
         tools:layout="@layout/fragment_histori" />
+    <fragment
+        android:id="@+id/diskonFragment"
+        android:name="org.d3if3107.kalkulatordiskon.ui.DiskonFragment"
+        android:label="DiskonFragment" />
 </navigation>

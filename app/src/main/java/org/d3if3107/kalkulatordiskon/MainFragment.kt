@@ -11,23 +11,21 @@ import androidx.navigation.fragment.findNavController
 import org.d3if3107.kalkulatordiskon.databinding.FragmentMainBinding
 import org.d3if3107.kalkulatordiskon.db.DiskonDb
 import org.d3if3107.kalkulatordiskon.model.HasilDiskon
-import org.d3if3107.kalkulatordiskon.ui.histori.HistoriViewModel
-import org.d3if3107.kalkulatordiskon.ui.histori.HistoriViewModelFactory
 
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
 
-    private val viewModel: MainViewModel by lazy {
-            val db = DiskonDb.getInstance(requireContext())
-            val factory = MainViewModelFactory(db.dao)
-            ViewModelProvider(this, factory)[MainViewModel::class.java]
+    private val viewModel: DiskonViewModel by lazy {
+        val db = DiskonDb.getInstance(requireContext())
+        val factory = MainViewModelFactory(db.dao)
+        ViewModelProvider(this, factory)[DiskonViewModel::class.java]
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMainBinding.inflate(layoutInflater, container, false)
         setHasOptionsMenu(true)
 
@@ -35,20 +33,29 @@ class MainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.button.setOnClickListener {kalkulatorDiskon()}
-        viewModel.getHasilDiskon().observe(requireActivity()) { showResult(it) }
+        binding.button.setOnClickListener { kalkulatorDiskon() }
+        viewModel.getHasilDiskon().observe(requireActivity()) {
+            showResult(it)
+        }
         binding.shareButton.setOnClickListener { shareData() }
-
+//        viewModel.getStatus().observe(viewLifecycleOwner) {
+//            updateProgress(it)
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.options_menu, menu)
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.menu_histori -> {
                 findNavController().navigate(R.id.action_mainFragment_to_historiFragment)
+                return true
+            }
+            R.id.menu_diskon -> {
+                findNavController().navigate(R.id.action_mainFragment_to_diskonFragment)
                 return true
             }
             R.id.menu_about -> {
@@ -61,24 +68,23 @@ class MainFragment : Fragment() {
 
     private fun kalkulatorDiskon() {
         val harga = binding.hargaInp.text.toString()
+
         if (TextUtils.isEmpty(harga)) {
             Toast.makeText(context, R.string.harga_invalid, Toast.LENGTH_LONG).show()
             return
         }
+
         val diskon = binding.diskonInp.text.toString()
+
         if (TextUtils.isEmpty(diskon)) {
             Toast.makeText(context, R.string.diskon_invalid, Toast.LENGTH_LONG).show()
             return
         }
-
-        viewModel.hitungDiskon(
-            harga.toDouble(),
-            diskon.toDouble())
-
     }
 
     private fun shareData() {
-        val message = getString(R.string.bagikan_template,
+        val message = getString(
+            R.string.bagikan_template,
             binding.hargaInp.text.toString(),
             binding.diskonInp.text.toString(),
             binding.hasil.text.toString(),
@@ -86,11 +92,12 @@ class MainFragment : Fragment() {
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.setType("text/plain").putExtra(Intent.EXTRA_TEXT, message)
         if (shareIntent.resolveActivity(
-                requireActivity().packageManager) != null) {
+                requireActivity().packageManager
+            ) != null
+        ) {
             startActivity(shareIntent)
         }
     }
-
 
     private fun showResult(result: HasilDiskon?) {
         if (result == null) return
